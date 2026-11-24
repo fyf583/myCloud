@@ -1,0 +1,18 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: mycloud-gateway-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: mycloud-user-service
+        - uri: lb://mycloud-user-service
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=0
+

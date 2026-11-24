@@ -1,0 +1,12 @@
+-- check_captcha.lua
+-- KEYS[1]: 验证码key（完整，包含前缀）
+-- ARGV[1]: 用户输入的验证码
+-- 返回值: 1=成功（匹配并删除），0=失败（不匹配或已过期）
+
+local captcha = redis.call('GET', KEYS[1])
+if captcha == ARGV[1] then
+    redis.call('DEL', KEYS[1])
+    return 1
+else
+    return 0
+end
