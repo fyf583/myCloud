@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class CursorPageResult <T>{
-    private Integer nextCursorId;
+    private Long nextCursorId;
 
     private LocalDateTime nextCursorTime;
 

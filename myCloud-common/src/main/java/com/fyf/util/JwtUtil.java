@@ -13,7 +13,7 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 7 * 24 * 60 * 60 * 1000;
     private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    public static String createToken(Integer userId){
+    public static String createToken(Long userId){
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
         return Jwts.builder()
@@ -26,8 +26,9 @@ public class JwtUtil {
 
     public static Claims parseToken(String token){
         try{
-            Jws<Claims> jws = Jwts.parser()
+            Jws<Claims> jws = Jwts.parserBuilder()
                     .setSigningKey(KEY)
+                    .build()
                     .parseClaimsJws(token);
             return jws.getBody();
         }catch (ExpiredJwtException e){

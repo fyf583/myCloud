@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class CursorPage {
     private Integer pageSize;
 
-    private Integer cursorId;
+    private Long cursorId;
 
     private LocalDateTime cursorTime;
 }

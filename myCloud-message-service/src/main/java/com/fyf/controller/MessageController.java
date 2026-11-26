@@ -1,26 +1,42 @@
 package com.fyf.controller;
 
+import com.fyf.dto.CursorPage;
 import com.fyf.dto.MessageDTO;
 import com.fyf.result.CursorPageResult;
 import com.fyf.result.Result;
 import com.fyf.service.MessageService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequestMapping("/message")
 public class MessageController {
-    @Autowired
+    @Resource
     private MessageService messageService;
 
-    @GetMapping()
-    public Result<CursorPageResult<MessageDTO>> messageList(@RequestBody com.fyf.dto.CursorPage cursorPage) {
-        messageService.messageList(cursorPage);
-        return null;
+    @GetMapping
+    public Result<CursorPageResult<MessageDTO>> messageList(@RequestBody CursorPage cursorPage) {
+        CursorPageResult<MessageDTO> pageResult = messageService.messageList(cursorPage);
+        return Result.success(pageResult);
+    }
+
+    @PostMapping
+    public Result<Void> sendMessage(@RequestBody MessageDTO messageDTO) {
+        messageService.sendMessage(messageDTO);
+        return Result.success();
+    }
+
+    @PostMapping("/{messageId}")
+    public Result<Void> deleteMessage(@PathVariable Long messageId) {
+        messageService.deleteMessage(messageId);
+        return Result.success();
+    }
+
+    @GetMapping("/{userId}")
+    public Result<CursorPageResult<MessageDTO>> getMessagesById(@PathVariable Long userId, @RequestBody CursorPage cursorPage) {
+        CursorPageResult<MessageDTO> result = messageService.getMessagesById(userId,cursorPage);
+        return Result.success(result);
     }
 }

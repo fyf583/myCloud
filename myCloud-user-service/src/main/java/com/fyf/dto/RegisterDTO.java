@@ -22,7 +22,7 @@ public class RegisterDTO {
     @NotBlank(message = "确认密码不能为空")
     private String password2;
 
-    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
+    @Pattern(regexp = "^1[3-9]\\\\d{9}$", message = "手机号格式不正确")
     private String phone;
 
     @NotBlank(message = "验证码不能为空")

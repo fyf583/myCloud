@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class User {
-    private Integer id;
+    private Long id;
 
     private String username;
 

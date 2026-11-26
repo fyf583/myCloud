@@ -17,11 +17,6 @@ import org.springframework.stereotype.Service;
 import com.fyf.util.JwtUtil;
 import com.fyf.util.UserContext;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,19 +37,12 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 登录方法
      * 每次登录都会生成新 token，覆盖 Redis 中该用户的旧 token（实现单点登录，旧设备被踢下线）
-     * @param loginDTO
-     * @return
+     * @param loginDTO 账号密码登录
+     * @return 返回token
      */
-
     public String login(LoginDTO loginDTO) {
         String username = loginDTO.getUsername();
-        if(username==null || username.equals("")){
-            throw new LoginException("用户名不能为空");
-        }
         String password = loginDTO.getPassword();
-        if(password==null || password.equals("")){
-            throw new LoginException("密码不能为空");
-        }
 
         User user = loginMapper.selectUserByUsername(username);
         if(user==null){
@@ -67,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         // 生成token，存入Redis
-        Integer userId = user.getId();
+        Long userId = user.getId();
         String token = JwtUtil.createToken(userId);
         stringRedisTemplate.opsForValue().set(LOGIN_KEY_PREFIX+userId,token,7, TimeUnit.DAYS);
 
@@ -77,8 +65,7 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 注册方法
      * 注册完前端跳转login界面
-     * @param registerDTO
-     * @return
+     * @param registerDTO 账号密码电话验证码
      */
     public void register(RegisterDTO  registerDTO) {
         String userName = registerDTO.getUsername();
@@ -92,7 +79,7 @@ public class LoginServiceImpl implements LoginService {
         Long result = stringRedisTemplate.execute(checkCaptchaScript,
                 List.of(LOGIN_KEY_CAPTCHA + captchaKey),
                 captcha);
-        if (result == null || result != 1L) {
+        if (result != 1L) {
             throw new LoginException("验证码错误");
         }
         User user = User.builder()
@@ -120,7 +107,7 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 获取验证码
      * 验证后记得删除
-     * @return
+     * @return 返回验证码和key
      */
     public CaptchaVO captcha(){
         String captcha= CaptchaUtil.createCaptcha();

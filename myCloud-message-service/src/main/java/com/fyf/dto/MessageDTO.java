@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageDTO {
+    private Long id;
+
     private String message;
 
     private LocalDateTime createTime;

@@ -4,6 +4,7 @@ import com.fyf.dto.LoginDTO;
 import com.fyf.dto.RegisterDTO;
 import com.fyf.service.LoginService;
 import com.fyf.vo.CaptchaVO;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public Result<Void> register(@RequestBody RegisterDTO registerDTO) {
+    public Result<Void> register(@Valid @RequestBody RegisterDTO registerDTO) {
         loginService.register(registerDTO);
         return Result.success();
     }
