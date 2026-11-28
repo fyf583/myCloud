@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日记本 · myCloud</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar"></header>
+
+<main class="container container-narrow">
+  <div class="page-head">
+    <div>
+      <h3 class="page-title">日记本</h3>
+      <p class="page-desc">
+        对应接口：<code>/diary</code>（列表 / 写日记）、<code>/diary/{diaryId}</code>（查看 / 修改）、
+        <code>/diary/rm/{diaryId}</code>（删除）
+      </p>
+    </div>
+    <button class="btn btn-primary" id="btnNewDiary" type="button">+ 写日记</button>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <span>日记时间线</span>
+      <button class="btn btn-ghost btn-sm" id="btnRefresh" type="button">刷新</button>
+    </div>
+    <div class="card-body">
+      <div class="timeline" id="diaryList"></div>
+      <div class="load-more" id="loadMoreWrap"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/request.js"></script>
+<script src="js/mock.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/pages/diary.js"></script>
+</body>
+</html>

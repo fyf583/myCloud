@@ -17,7 +17,7 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping
-    public Result<CursorPageResult<MessageDTO>> messageList(@RequestBody CursorPage cursorPage) {
+    public Result<CursorPageResult<MessageDTO>> messageList(CursorPage cursorPage) {
         CursorPageResult<MessageDTO> pageResult = messageService.messageList(cursorPage);
         return Result.success(pageResult);
     }
@@ -29,13 +29,13 @@ public class MessageController {
     }
 
     @PostMapping("/{messageId}")
-    public Result<Void> deleteMessage(@PathVariable Long messageId) {
+    public Result<Void> deleteMessage(@PathVariable("messageId") Long messageId) {
         messageService.deleteMessage(messageId);
         return Result.success();
     }
 
     @GetMapping("/{userId}")
-    public Result<CursorPageResult<MessageDTO>> getMessagesById(@PathVariable Long userId, @RequestBody CursorPage cursorPage) {
+    public Result<CursorPageResult<MessageDTO>> getMessagesById(@PathVariable("userId") Long userId, CursorPage cursorPage) {
         CursorPageResult<MessageDTO> result = messageService.getMessagesById(userId,cursorPage);
         return Result.success(result);
     }

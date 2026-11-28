@@ -27,7 +27,11 @@ public class Result<T> {
         return result;
     }
 
-    public static <T> Result<T> success(String msg) {
+    /**
+     * 仅返回提示信息（注意：不要命名为 success(String)，否则会与 success(T data) 重载冲突，
+     * 导致 String 类型的业务数据被塞进 msg 字段）
+     */
+    public static <T> Result<T> successMsg(String msg) {
         Result<T> result = new Result<T>();
         result.setCode(200);
         result.setMsg(msg);

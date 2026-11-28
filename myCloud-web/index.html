@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>登录 · myCloud</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <style>
+    body.auth-page {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      background: radial-gradient(1200px 600px at 10% 0%, #e0e7ff 0%, #f5f7fa 55%);
+    }
+    .auth-wrap {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      margin: 24px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, .12);
+    }
+    .auth-intro {
+      padding: 44px 38px;
+      color: #fff;
+      background: linear-gradient(140deg, #3b82f6 0%, #4f46e5 55%, #6d28d9 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .auth-intro .logo-lg {
+      display: inline-grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .18);
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+    .auth-intro h1 { font-size: 26px; line-height: 1.35; }
+    .auth-intro p { margin-top: 12px; font-size: 13px; color: rgba(255, 255, 255, .82); line-height: 1.7; }
+    .auth-intro ul { margin-top: 20px; display: grid; gap: 8px; font-size: 13px; color: rgba(255, 255, 255, .9); }
+    .auth-intro li::before { content: '·'; margin-right: 8px; color: rgba(255, 255, 255, .7); }
+    .auth-foot { font-size: 12px; color: rgba(255, 255, 255, .6); }
+
+    .auth-panel { padding: 40px 38px; display: flex; flex-direction: column; justify-content: center; }
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      padding: 4px;
+      margin-bottom: 26px;
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    .auth-tabs button {
+      padding: 9px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-sub);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+    .auth-tabs button.active { background: #fff; color: var(--primary-dark); box-shadow: var(--shadow); }
+
+    .captcha-box {
+      flex: 0 0 116px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #f8fafc;
+      font-family: "Courier New", monospace;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--primary-dark);
+      cursor: pointer;
+      user-select: none;
+    }
+    .captcha-box:hover { border-color: var(--primary); }
+    .captcha-box.loading { color: var(--text-light); letter-spacing: 0; font-size: 12px; }
+
+    @media (max-width: 860px) {
+      .auth-wrap { grid-template-columns: 1fr; max-width: 460px; }
+      .auth-intro { display: none; }
+      .auth-panel { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+<div class="auth-wrap">
+  <!-- 左侧品牌介绍 -->
+  <aside class="auth-intro">
+    <div>
+      <div class="logo-lg">云</div>
+      <h1>欢迎使用 myCloud<br>个人云笔记系统</h1>
+      <p>基于 Spring Cloud 微服务架构：网关统一鉴权，用户 / 留言 / 笔记 / 日记 / 相册 / 待做 / 文件 / 歌单多服务协作。</p>
+      <ul>
+        <li>登录后即可留言互动</li>
+        <li>开发者可发布、修改、删除内容</li>
+        <li>游客可浏览公开内容</li>
+      </ul>
+    </div>
+    <div class="auth-foot">© 2026 myCloud · 微服务练手项目</div>
+  </aside>
+
+  <!-- 右侧登录 / 注册 -->
+  <main class="auth-panel">
+    <div class="auth-tabs">
+      <button type="button" id="tabLogin" class="active">登录</button>
+      <button type="button" id="tabRegister">注册</button>
+    </div>
+
+    <!-- 登录 -->
+    <form id="loginForm" autocomplete="on" novalidate>
+      <div class="form-item">
+        <label class="form-label" for="loginUsername">账号<span class="required">*</span></label>
+        <input class="input" id="loginUsername" name="username" placeholder="请输入用户名" autocomplete="username">
+      </div>
+      <div class="form-item">
+        <label class="form-label" for="loginPassword">密码<span class="required">*</span></label>
+        <input class="input" id="loginPassword" name="password" type="password" placeholder="请输入密码" autocomplete="current-password">
+      </div>
+      <div class="form-error hidden" id="loginErr"></div>
+      <button class="btn btn-primary btn-block btn-lg mt-8" type="submit" id="btnLogin">登 录</button>
+      <p class="form-tip mt-16">还没有账号？<a href="javascript:;" id="linkToRegister">立即注册</a></p>
+    </form>
+
+    <!-- 注册 -->
+    <form id="registerForm" class="hidden" autocomplete="on" novalidate>
+      <div class="form-item">
+        <label class="form-label" for="regUsername">账号<span class="required">*</span></label>
+        <input class="input" id="regUsername" name="username" placeholder="请输入用户名" autocomplete="username">
+      </div>
+      <div class="form-item">
+        <label class="form-label" for="regPassword">密码<span class="required">*</span></label>
+        <input class="input" id="regPassword" name="password" type="password" placeholder="至少 6 位" autocomplete="new-password">
+      </div>
+      <div class="form-item">
+        <label class="form-label" for="regPassword2">确认密码<span class="required">*</span></label>
+        <input class="input" id="regPassword2" name="password2" type="password" placeholder="请再次输入密码" autocomplete="new-password">
+      </div>
+      <div class="form-item">
+        <label class="form-label" for="regPhone">手机号<span class="required">*</span></label>
+        <input class="input" id="regPhone" name="phone" placeholder="11 位手机号" maxlength="11">
+      </div>
+      <div class="form-item">
+        <label class="form-label" for="regCaptcha">验证码<span class="required">*</span></label>
+        <div class="input-row">
+          <input class="input" id="regCaptcha" name="captcha" placeholder="请输入右侧验证码" maxlength="8">
+          <div class="captcha-box" id="captchaBox" title="点击刷新验证码">点击获取</div>
+        </div>
+        <p class="form-tip">验证码 5 分钟内有效，点击方块可刷新</p>
+      </div>
+      <input type="hidden" id="regCaptchaKey">
+      <div class="form-error hidden" id="registerErr"></div>
+      <button class="btn btn-primary btn-block btn-lg mt-8" type="submit" id="btnRegister">注 册</button>
+      <p class="form-tip mt-16">已有账号？<a href="javascript:;" id="linkToLogin">返回登录</a></p>
+    </form>
+  </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/request.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/pages/login.js"></script>
+</body>
+</html>

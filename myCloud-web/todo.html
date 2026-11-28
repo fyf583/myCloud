@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>待做日程 · myCloud</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar"></header>
+
+<main class="container container-narrow">
+  <div class="page-head">
+    <div>
+      <h3 class="page-title">待做日程</h3>
+      <p class="page-desc">
+        对应接口：<code>/todo</code>（列表 / 新建）、<code>/todo/{todoId}</code>（修改）、
+        <code>/todo/done/{todoId}</code>（完成）、<code>/todo/rm/{todoId}</code>（删除）
+      </p>
+    </div>
+    <button class="btn btn-primary" id="btnNewTodo" type="button">+ 新建日程</button>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <span>日程列表</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <select class="select" id="statusFilter" style="width:110px;padding:5px 8px">
+          <option value="">全部状态</option>
+          <option value="0">未完成</option>
+          <option value="1">已完成</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" id="btnRefresh" type="button">刷新</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div id="todoList"></div>
+      <div class="load-more" id="loadMoreWrap"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/request.js"></script>
+<script src="js/mock.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/pages/todo.js"></script>
+</body>
+</html>

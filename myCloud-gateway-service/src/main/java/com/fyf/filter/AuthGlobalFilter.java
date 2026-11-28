@@ -1,11 +1,11 @@
 package com.fyf.filter;
 
 import com.fyf.util.JwtUtil;
-import io.jsonwebtoken.Claims;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -27,6 +27,11 @@ public class AuthGlobalFilter implements GlobalFilter , Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
 
+        // 放行浏览器的跨域预检请求（OPTIONS），预检请求不会携带 token
+        if (HttpMethod.OPTIONS.equals(exchange.getRequest().getMethod())) {
+            return chain.filter(exchange);
+        }
+
         // 放行
         if(EXCLUDE_PATH.stream().anyMatch(path::startsWith)){
             return chain.filter(exchange);
@@ -37,8 +42,7 @@ public class AuthGlobalFilter implements GlobalFilter , Ordered {
             return writeResponse(exchange,401,"未登录");
         }
         try{
-            Claims claims = JwtUtil.parseToken(token);
-            Integer userId = claims.get("userId",Integer.class);
+            Long userId = JwtUtil.getUserIdFromToken(token);
 
             ServerHttpRequest mutateRequest = exchange.getRequest().mutate()
                     .header("X-User-Id", String.valueOf(userId))

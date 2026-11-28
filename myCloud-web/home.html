@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>首页 · myCloud</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar"></header>
+
+<main class="container">
+  <section class="card">
+    <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div>
+        <h2 class="page-title" id="welcome">你好</h2>
+        <p class="page-desc" id="welcomeDesc">欢迎回到 myCloud，从下面选择你要进入的模块。</p>
+      </div>
+      <div class="text-sub" style="font-size:12px;text-align:right;line-height:1.9">
+        <div>网关：<span id="gatewayAddr" class="text-success">—</span></div>
+        <div>当前用户 ID：<span id="uidView">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-head mt-24">
+    <div>
+      <h3 class="page-title">核心功能</h3>
+      <p class="page-desc">带宽度的「开发中」角标表示该模块后端接口尚未实现，页面暂时展示示例数据。</p>
+    </div>
+  </div>
+
+  <div class="grid" id="moduleGrid"></div>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/request.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  (function () {
+    if (!Auth.requireLogin()) return;
+    Auth.initTopbar('home');
+
+    const user = Auth.getUser() || {};
+    const name = user.username || '朋友';
+    document.getElementById('welcome').textContent = '你好，' + name;
+    document.getElementById('gatewayAddr').textContent = CONFIG.BASE_URL;
+    const uid = Auth.currentUserId();
+    document.getElementById('uidView').textContent = uid === null ? '—（token 中未解析到）' : uid;
+
+    const grid = document.getElementById('moduleGrid');
+    grid.innerHTML = Auth.MODULES.map(function (m) {
+      return '' +
+        '<a class="module-card" href="' + m.page + '">' +
+          (m.done ? '' : '<span class="badge badge-dev badge-corner">开发中</span>') +
+          '<div class="module-icon">' + m.icon + '</div>' +
+          '<div class="module-name">' + UI.escapeHtml(m.name) + '</div>' +
+          '<div class="module-desc">' + UI.escapeHtml(m.desc) + '</div>' +
+        '</a>';
+    }).join('');
+  })();
+</script>
+</body>
+</html>

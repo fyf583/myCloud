@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文件分享 · myCloud</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar"></header>
+
+<main class="container">
+  <div class="page-head">
+    <div>
+      <h3 class="page-title">文件分享</h3>
+      <p class="page-desc">
+        对应接口：<code>/file</code>（列表 / 上传，multipart/form-data）、
+        <code>/file/{fileId}</code>（下载）、<code>/file/rm/{fileId}</code>（删除）
+      </p>
+    </div>
+    <button class="btn btn-primary" id="btnUpload" type="button">+ 上传文件</button>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <span>文件列表</span>
+      <button class="btn btn-ghost btn-sm" id="btnRefresh" type="button">刷新</button>
+    </div>
+    <div class="card-body" style="padding:0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:44px">#</th>
+            <th>文件名</th>
+            <th>描述</th>
+            <th style="width:90px">大小</th>
+            <th style="width:150px">上传时间</th>
+            <th style="width:130px">操作</th>
+          </tr>
+        </thead>
+        <tbody id="fileTableBody"></tbody>
+      </table>
+      <div class="load-more" id="loadMoreWrap"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/request.js"></script>
+<script src="js/mock.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/pages/file.js"></script>
+</body>
+</html>

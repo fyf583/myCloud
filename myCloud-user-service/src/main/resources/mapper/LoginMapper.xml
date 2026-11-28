@@ -16,7 +16,7 @@
             <if test="id != null">#{id},</if>
             <if test="username != null">#{username},</if>
             <if test="password != null">#{password},</if>
-            <if test="phone != null">#{phone}</if>
+            <if test="phone != null">#{phone},</if>
             <if test="status != null">#{status},</if>
             <if test="createTime != null">#{createTime},</if>
         </trim>

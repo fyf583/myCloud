@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Aspect
 @Component
 public class AutoFillAspect {
-    @Pointcut("execution(* com.fyf.mapper.insert*(..)) || execution(* com.fyf.mapper.insert*(..))")
+    @Pointcut("execution(* com.fyf.mapper..*.insert*(..)) || execution(* com.fyf.mapper..*.update*(..))")
     public void pointcut() {}
 
     @Around("pointcut()")

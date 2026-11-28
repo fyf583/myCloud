@@ -16,19 +16,19 @@
     <insert id="insertMessage">
         insert into message
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId!=null">user_id</if>
-            <if test="message!=null">message</if>
-            <if test="status!=null">status</if>
-            <if test="createTime!=null">create_time</if>
-            <if test="updateTime!=null">update_time</if>
+            <if test="userId!=null">user_id,</if>
+            <if test="message!=null">message,</if>
+            <if test="status!=null">status,</if>
+            <if test="createTime!=null">create_time,</if>
+            <if test="updateTime!=null">update_time,</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId!=null">userId</if>
-            <if test="message!=null">message</if>
-            <if test="status!=null">status</if>
-            <if test="createTime!=null">createTime</if>
-            <if test="updateTime!=null">updateTime</if>
+            <if test="userId!=null">#{userId},</if>
+            <if test="message!=null">#{message},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="updateTime!=null">#{updateTime},</if>
         </trim>
     </insert>
     <update id="updateMessage">

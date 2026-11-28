@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我的歌单 · myCloud</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar"></header>
+
+<main class="container container-narrow">
+  <div class="page-head">
+    <div>
+      <h3 class="page-title">我的歌单</h3>
+      <p class="page-desc">
+        对应接口：<code>/song</code>（列表 / 添加）、<code>/song/{songId}</code>（播放地址）、
+        <code>/song/rm/{songId}</code>（删除）
+      </p>
+    </div>
+    <button class="btn btn-primary" id="btnNewSong" type="button">+ 添加歌曲</button>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <span>歌单</span>
+      <button class="btn btn-ghost btn-sm" id="btnRefresh" type="button">刷新</button>
+    </div>
+    <div class="card-body">
+      <div id="songList"></div>
+      <div class="load-more" id="loadMoreWrap"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/request.js"></script>
+<script src="js/mock.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/pages/song.js"></script>
+</body>
+</html>

@@ -13,6 +13,7 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+        enabled: false          # 本地联调：暂未安装 Nacos，关闭服务发现（装好 Nacos 后改为 true）
 
 # MyBatis配置
 mybatis:
