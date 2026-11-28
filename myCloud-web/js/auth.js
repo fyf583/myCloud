@@ -86,8 +86,8 @@
     { key: 'diary', name: '日记本', icon: '📔', desc: '记录每天的心情', page: 'diary.html', done: true },
     { key: 'album', name: '相册', icon: '🖼️', desc: '照片上传与浏览', page: 'album.html', done: true },
     { key: 'todo', name: '待做日程', icon: '✅', desc: '待办清单与截止时间', page: 'todo.html', done: true },
-    { key: 'file', name: '文件分享', icon: '📁', desc: '文件上传与下载', page: 'file.html', done: false },
-    { key: 'song', name: '我的歌单', icon: '🎵', desc: '收藏与播放歌曲', page: 'song.html', done: false }
+    { key: 'file', name: '文件分享', icon: '📁', desc: '文件上传与下载', page: 'file.html', done: true },
+    { key: 'song', name: '我的歌单', icon: '🎵', desc: '收藏与播放歌曲', page: 'song.html', done: true }
   ];
 
   /* ---------------- 顶栏 ---------------- */

@@ -10,8 +10,8 @@ window.CONFIG = {
   USE_MOCK: true,
 
   /** 仅这些接口前缀走 mock 假数据（后端尚未实现的模块）
-   *  笔记 / 日记 / 相册 / 待做已经实现，走真实接口，所以不在此列表中 */
-  MOCK_PATHS: ['/file', '/song'],
+   *  8 个模块后端都已实现，全部走真实接口，所以这里为空 */
+  MOCK_PATHS: [],
 
   /** localStorage 的 key */
   TOKEN_KEY: 'mycloud_token',

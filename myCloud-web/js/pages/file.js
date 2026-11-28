@@ -13,6 +13,13 @@
 
   const state = { items: [], cursorId: null, cursorTime: null, hasMore: true, loading: false };
 
+  /** 后端返回的下载地址是相对网关的路径（/file/download/xxx），这里补上 BASE_URL */
+  function absoluteUrl(url) {
+    if (!url) return '';
+    if (/^(https?:)?\/\//i.test(url) || url.indexOf('data:') === 0) return url;
+    return CONFIG.BASE_URL + (url.charAt(0) === '/' ? url : '/' + url);
+  }
+
   function formatSize(bytes) {
     const size = Number(bytes) || 0;
     if (size < 1024) return size + ' B';
@@ -126,12 +133,13 @@
       const id = downloadBtn.getAttribute('data-download');
       try {
         const data = await Http.get(CONFIG.API.file + '/' + id);
-        const url = data && data.url;
+        const url = absoluteUrl(data && data.url);
         if (!url) return UI.toast('下载地址为空', 'warning');
         const a = document.createElement('a');
         a.href = url;
         a.download = (data && data.fileName) || '';
         a.target = '_blank';
+        a.rel = 'noopener';
         a.click();
       } catch (e) { /* 已 toast */ }
       return;
