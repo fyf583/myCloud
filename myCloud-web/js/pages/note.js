@@ -25,7 +25,7 @@
   /* ---------------- 分组 ---------------- */
   async function loadGroups() {
     try {
-      const data = await Http.get(CONFIG.API.note + '/group', { data: { pageSize: 100 }, silent: true });
+      const data = await Http.get(CONFIG.API.note + '/group', { query: { pageSize: 100 }, silent: true });
       state.groups = Http.normalizePage(data).list || [];
     } catch (e) {
       state.groups = [];

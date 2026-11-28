@@ -25,6 +25,11 @@ public class AutoFillAspect {
             return joinPoint.proceed();
         }
         Object entity = args[0];
+        // 只有业务实体才需要填充：JDK 自带类型（Long / String 等）直接放行，
+        // 否则反射访问 java.lang 字段会被 JDK 模块系统拒绝（InaccessibleObjectException）
+        if (entity == null || entity.getClass().getName().startsWith("java.")) {
+            return joinPoint.proceed();
+        }
         String methodName = joinPoint.getSignature().getName();
         LocalDateTime now = LocalDateTime.now();
 

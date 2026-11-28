@@ -33,4 +33,18 @@ spring:
             - Path=/message/**
           filters:
             - StripPrefix=0
+        - id: mycloud-note-service
+          # uri: lb://mycloud-note-service        # 装了 Nacos 并开启服务发现后改回这行
+          uri: http://localhost:8083
+          predicates:
+            - Path=/note/**
+          filters:
+            - StripPrefix=0
+        - id: mycloud-diary-service
+          # uri: lb://mycloud-diary-service       # 装了 Nacos 并开启服务发现后改回这行
+          uri: http://localhost:8084
+          predicates:
+            - Path=/diary/**
+          filters:
+            - StripPrefix=0
 

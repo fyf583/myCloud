@@ -6,9 +6,12 @@ window.CONFIG = {
   /** 网关地址：前端所有请求都打到这里，由网关转发到各微服务 */
   BASE_URL: 'http://localhost:8080',
 
-  /** 是否启用 mock：3~8 章（笔记/日记/相册/待做/文件/歌单）后端尚未实现，
-   *  开启后用 js/mock.js 里的假数据渲染页面；后端上线后改成 false 即可切真实接口 */
+  /** 是否启用 mock 总开关 */
   USE_MOCK: true,
+
+  /** 仅这些接口前缀走 mock 假数据（后端尚未实现的模块）
+   *  笔记 / 日记已经实现，走真实接口，所以不在此列表中 */
+  MOCK_PATHS: ['/album', '/todo', '/file', '/song'],
 
   /** localStorage 的 key */
   TOKEN_KEY: 'mycloud_token',

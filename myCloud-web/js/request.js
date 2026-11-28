@@ -34,6 +34,15 @@
     return parts.length ? '?' + parts.join('&') : '';
   }
 
+  /** 判断该接口是否走 mock（仅 CONFIG.MOCK_PATHS 中列出的模块） */
+  function isMockPath(path) {
+    if (!C.USE_MOCK) return false;
+    const paths = C.MOCK_PATHS || [];
+    return paths.some(function (prefix) {
+      return path === prefix || path.indexOf(prefix + '/') === 0;
+    });
+  }
+
   function redirectToLogin() {
     clearLogin();
     if (!/index\.html?$/i.test(location.pathname)) {
@@ -47,8 +56,15 @@
       options || {}
     );
 
-    // ---- mock 拦截（仅 CONFIG.USE_MOCK 时生效，见 js/mock.js） ----
-    if (C.USE_MOCK && window.Mock && typeof window.Mock.match === 'function') {
+    // 兜底：浏览器规范禁止 GET / HEAD 携带请求体（fetch 会直接抛 TypeError），
+    // 这里把误传的 data 自动降级为 query 参数，避免请求静默失败
+    if ((opts.method === 'GET' || opts.method === 'HEAD') && opts.data !== undefined && !opts.isForm) {
+      opts.query = Object.assign({}, opts.data, opts.query || {});
+      opts.data = undefined;
+    }
+
+    // ---- mock 拦截（仅 USE_MOCK 打开且命中 MOCK_PATHS 时生效，见 js/mock.js） ----
+    if (isMockPath(path) && window.Mock && typeof window.Mock.match === 'function') {
       const mocked = window.Mock.match(opts.method, path, opts.data, opts.query);
       if (mocked !== undefined) {
         return mocked;

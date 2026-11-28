@@ -13,6 +13,8 @@
         <module>myCloud-user-service</module>
         <module>myCloud-message-service</module>
         <module>myCloud-gateway-service</module>
+        <module>myCloud-note-service</module>
+        <module>myCloud-diary-service</module>
     </modules>
     <packaging>pom</packaging>
 
