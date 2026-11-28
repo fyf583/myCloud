@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fyf.mapper.FileInfoMapper">
+
+    <select id="getFiles" resultType="com.fyf.dto.FileDTO">
+        select id, file_name as fileName, description, size, stored_name as storedName, create_time as createTime
+        from file
+        <where>
+            <if test="cursorId!=null and cursorTime!=null">
+                (create_time &lt; #{cursorTime} or (create_time = #{cursorTime} and id &lt; #{cursorId}))
+            </if>
+            <if test="status!=null">and status=#{status}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+        </where>
+        order by create_time desc, id desc
+        limit #{pageSize}
+    </select>
+
+    <select id="getFileById" resultType="com.fyf.dto.FileDTO">
+        select id, file_name as fileName, description, size, stored_name as storedName, create_time as createTime
+        from file
+        where id=#{id}
+        <if test="status!=null">and status=#{status}</if>
+        <if test="userId!=null">and user_id=#{userId}</if>
+    </select>
+
+    <select id="getFileByStoredName" resultType="com.fyf.dto.FileDTO">
+        select id, file_name as fileName, description, size, stored_name as storedName, create_time as createTime
+        from file
+        where stored_name=#{storedName}
+        <if test="status!=null">and status=#{status}</if>
+        limit 1
+    </select>
+
+    <insert id="insertFile" useGeneratedKeys="true" keyProperty="id">
+        insert into file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">user_id,</if>
+            <if test="fileName!=null">file_name,</if>
+            <if test="description!=null">description,</if>
+            <if test="size!=null">size,</if>
+            <if test="storedName!=null">stored_name,</if>
+            <if test="status!=null">status,</if>
+            <if test="createTime!=null">create_time,</if>
+            <if test="updateTime!=null">update_time,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">#{userId},</if>
+            <if test="fileName!=null">#{fileName},</if>
+            <if test="description!=null">#{description},</if>
+            <if test="size!=null">#{size},</if>
+            <if test="storedName!=null">#{storedName},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="updateTime!=null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFile">
+        update file
+        <set>
+            <if test="file.fileName!=null">file_name=#{file.fileName},</if>
+            <if test="file.description!=null">description=#{file.description},</if>
+            <if test="file.status!=null">status=#{file.status},</if>
+            <if test="file.updateTime!=null">update_time=#{file.updateTime}</if>
+        </set>
+        where id=#{file.id}
+        <if test="userId!=null">and user_id=#{userId}</if>
+    </update>
+
+</mapper>

@@ -23,7 +23,10 @@ public class AuthGlobalFilter implements GlobalFilter , Ordered {
             "/auth/captcha",
             // 相册图片静态访问：浏览器 <img> 标签无法携带 token 请求头，
             // 因此该前缀放行（文件名是 UUID，不可枚举）
-            "/album/file/"
+            "/album/file/",
+            // 文件下载：浏览器 <a download> 无法携带 token 请求头，
+            // 同样用 UUID 文件名保证不可枚举
+            "/file/download/"
     );
 
     @Override

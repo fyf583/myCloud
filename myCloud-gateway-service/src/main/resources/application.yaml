@@ -61,4 +61,18 @@ spring:
             - Path=/todo/**
           filters:
             - StripPrefix=0
+        - id: mycloud-file-service
+          # uri: lb://mycloud-file-service        # 装了 Nacos 并开启服务发现后改回这行
+          uri: http://localhost:8087
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=0
+        - id: mycloud-song-service
+          # uri: lb://mycloud-song-service        # 装了 Nacos 并开启服务发现后改回这行
+          uri: http://localhost:8088
+          predicates:
+            - Path=/song/**
+          filters:
+            - StripPrefix=0
 

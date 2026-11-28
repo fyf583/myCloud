@@ -17,6 +17,8 @@
         <module>myCloud-diary-service</module>
         <module>myCloud-album-service</module>
         <module>myCloud-todo-service</module>
+        <module>myCloud-file-service</module>
+        <module>myCloud-song-service</module>
     </modules>
     <packaging>pom</packaging>
 

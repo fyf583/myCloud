@@ -112,3 +112,37 @@ CREATE TABLE IF NOT EXISTS `todo` (
   KEY `idx_todo_user_create_time` (`user_id`,`create_time`),
   KEY `idx_todo_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
+-- 文件分享：落盘文件名 stored_name 是 UUID，下载地址不可枚举
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `file` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `file_name` varchar(150) NOT NULL COMMENT '展示用文件名',
+  `description` varchar(255) DEFAULT NULL COMMENT '文件描述',
+  `size` bigint NOT NULL DEFAULT '0' COMMENT '文件大小（字节）',
+  `stored_name` varchar(80) NOT NULL COMMENT '磁盘文件名（UUID.ext）',
+  `status` int NOT NULL DEFAULT '1' COMMENT '1 正常、2 已删除',
+  `create_time` datetime NOT NULL COMMENT '上传时间',
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_file_stored_name` (`stored_name`),
+  KEY `idx_file_user_create_time` (`user_id`,`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
+-- 我的歌单：url 为可公开访问的音频地址
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `song` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `song_name` varchar(100) NOT NULL COMMENT '歌曲名称',
+  `singer` varchar(50) DEFAULT NULL COMMENT '歌手',
+  `url` varchar(500) NOT NULL COMMENT '音频地址',
+  `status` int NOT NULL DEFAULT '1' COMMENT '1 正常、2 已删除',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_song_user_create_time` (`user_id`,`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
