@@ -20,7 +20,10 @@ public class AuthGlobalFilter implements GlobalFilter , Ordered {
     private static final List<String> EXCLUDE_PATH = List.of(
             "/auth/login",
             "/auth/register",
-            "/auth/captcha"
+            "/auth/captcha",
+            // 相册图片静态访问：浏览器 <img> 标签无法携带 token 请求头，
+            // 因此该前缀放行（文件名是 UUID，不可枚举）
+            "/album/file/"
     );
 
     @Override

@@ -2,6 +2,7 @@
  * pages/album.js —— 相册
  * 接口：GET /album（列表）、POST /album（上传，multipart/form-data）、
  *       GET /album/{photoId}（查看）、POST /album/rm/{photoId}（删除）
+ * 注意：后端返回的 url 是相对网关的路径（/album/file/xxx.jpg），渲染前要拼上 CONFIG.BASE_URL
  */
 (function () {
   if (!Auth.requireLogin()) return;
@@ -13,13 +14,20 @@
 
   const state = { items: [], cursorId: null, cursorTime: null, hasMore: true, loading: false };
 
+  /** 相对路径补全为网关绝对地址；已是完整 URL / data: 的原样返回 */
+  function absoluteUrl(url) {
+    if (!url) return '';
+    if (/^(https?:)?\/\//i.test(url) || url.indexOf('data:') === 0) return url;
+    return CONFIG.BASE_URL + (url.charAt(0) === '/' ? url : '/' + url);
+  }
+
   function renderList() {
     if (!state.items.length) {
       grid.innerHTML = UI.emptyHTML(state.loading ? '加载中…' : '相册还没有照片', '🖼️');
       return;
     }
     grid.innerHTML = state.items.map(function (p) {
-      const url = UI.escapeHtml(p.url || '');
+      const url = UI.escapeHtml(absoluteUrl(p.url));
       return '' +
         '<div class="photo-card" data-id="' + p.id + '" data-view="' + url + '" data-title="' + UI.escapeHtml(p.photoName || '') + '">' +
           '<img src="' + url + '" alt="' + UI.escapeHtml(p.photoName || '') + '"' +

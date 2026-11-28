@@ -15,6 +15,7 @@
         <module>myCloud-gateway-service</module>
         <module>myCloud-note-service</module>
         <module>myCloud-diary-service</module>
+        <module>myCloud-album-service</module>
     </modules>
     <packaging>pom</packaging>
 

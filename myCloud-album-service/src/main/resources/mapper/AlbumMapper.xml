@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fyf.mapper.AlbumMapper">
+
+    <select id="getAlbums" resultType="com.fyf.dto.AlbumDTO">
+        select id, photo_name as photoName, description, url, create_time as createTime
+        from album
+        <where>
+            <if test="cursorId!=null and cursorTime!=null">
+                (create_time &lt; #{cursorTime} or (create_time = #{cursorTime} and id &lt; #{cursorId}))
+            </if>
+            <if test="status!=null">and status=#{status}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+        </where>
+        order by create_time desc, id desc
+        limit #{pageSize}
+    </select>
+
+    <select id="getAlbumById" resultType="com.fyf.dto.AlbumDTO">
+        select id, photo_name as photoName, description, url, create_time as createTime
+        from album
+        where id=#{id}
+        <if test="status!=null">and status=#{status}</if>
+        <if test="userId!=null">and user_id=#{userId}</if>
+    </select>
+
+    <insert id="insertAlbum">
+        insert into album
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">user_id,</if>
+            <if test="photoName!=null">photo_name,</if>
+            <if test="description!=null">description,</if>
+            <if test="url!=null">url,</if>
+            <if test="status!=null">status,</if>
+            <if test="createTime!=null">create_time,</if>
+            <if test="updateTime!=null">update_time,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">#{userId},</if>
+            <if test="photoName!=null">#{photoName},</if>
+            <if test="description!=null">#{description},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="updateTime!=null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAlbum">
+        update album
+        <set>
+            <if test="album.photoName!=null">photo_name=#{album.photoName},</if>
+            <if test="album.description!=null">description=#{album.description},</if>
+            <if test="album.url!=null">url=#{album.url},</if>
+            <if test="album.status!=null">status=#{album.status},</if>
+            <if test="album.updateTime!=null">update_time=#{album.updateTime}</if>
+        </set>
+        where id=#{album.id}
+        <if test="userId!=null">and user_id=#{userId}</if>
+    </update>
+
+</mapper>
