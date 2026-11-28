@@ -46,7 +46,8 @@
   function redirectToLogin() {
     clearLogin();
     if (!/index\.html?$/i.test(location.pathname)) {
-      setTimeout(function () { location.href = 'index.html'; }, 600);
+      // 带时间戳，避免跳到浏览器缓存里的旧登录页（旧 CSS 会导致按钮黑边）
+      setTimeout(function () { location.href = 'index.html?t=' + Date.now(); }, 600);
     }
   }
 

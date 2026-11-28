@@ -10,6 +10,14 @@
   function setToken(token) { localStorage.setItem(C.TOKEN_KEY, token); }
   function isLogin() { return !!getToken(); }
 
+  /**
+   * 给页面地址加时间戳：浏览器缓存按完整 URL 区分，
+   * 这样每次点导航都会重新拉取 HTML（以及其中引用的 CSS），不会再用到旧样式。
+   */
+  function pageUrl(page) {
+    return page + (page.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now();
+  }
+
   function getUser() {
     try { return JSON.parse(localStorage.getItem(C.USER_KEY) || 'null'); } catch (e) { return null; }
   }
@@ -59,13 +67,13 @@
       await Http.post(C.API.auth + '/logout', undefined, { silent: true });
     } catch (e) { /* 网关已失效也照样退出 */ }
     Http.clearLogin();
-    location.href = 'index.html';
+    location.href = pageUrl('index.html');
   }
 
   /** 页面守卫：未登录跳回登录页 */
   function requireLogin() {
     if (!isLogin()) {
-      location.replace('index.html');
+      location.replace(pageUrl('index.html'));
       return false;
     }
     return true;
@@ -91,12 +99,12 @@
     const user = getUser() || {};
     const name = user.username || '用户';
     const nav = MODULES.map(function (m) {
-      return '<a href="' + m.page + '"' + (m.key === activeKey ? ' class="active"' : '') + '>' + m.name + '</a>';
+      return '<a href="' + pageUrl(m.page) + '"' + (m.key === activeKey ? ' class="active"' : '') + '>' + m.name + '</a>';
     }).join('');
 
     bar.innerHTML =
       '<div class="topbar-left">' +
-        '<a class="brand" href="home.html"><span class="logo">云</span>myCloud</a>' +
+        '<a class="brand" href="' + pageUrl('home.html') + '"><span class="logo">云</span>myCloud</a>' +
       '</div>' +
       '<nav class="topbar-nav">' + nav + '</nav>' +
       '<div class="topbar-right">' +
@@ -120,6 +128,7 @@
     logout: logout,
     requireLogin: requireLogin,
     initTopbar: initTopbar,
+    pageUrl: pageUrl,
     MODULES: MODULES
   };
 })();

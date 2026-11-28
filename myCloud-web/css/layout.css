@@ -185,6 +185,24 @@
 .input::placeholder, .textarea::placeholder { color: var(--text-light); }
 .input:disabled { background: #f8fafc; cursor: not-allowed; }
 
+/* 文件选择框内嵌的“选择文件”原生按钮默认也是黑边，统一改成 70% 灰 */
+input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 5px 12px;
+  border: 1px solid rgba(107, 114, 128, .7);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--text-sub);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease, background .18s ease;
+}
+input[type="file"]::file-selector-button:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
 .input-row { display: flex; gap: 10px; }
 .input-row .input { flex: 1; }
 
@@ -215,7 +233,19 @@
 .btn-ghost { border-color: var(--border); color: var(--text-sub); }
 .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
 .btn-danger { background: var(--danger); color: #fff; }
-.btn-text { background: transparent; color: var(--primary); padding: 4px 8px; }
+/* 文字按钮：各模块列表里的“编辑 / 删除 / 完成 / 分组 / 下载”等由 JS 直接生成，
+   只带 btn-text，没有 btn，若不显式声明边框就会露出浏览器默认的黑边。
+   这里统一改为 70% 透明度的灰色描边。 */
+.btn-text {
+  border: 1px solid rgba(107, 114, 128, .7);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--primary);
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+.btn-text:hover { border-color: rgba(107, 114, 128, .95); background: #f8fafc; }
 .btn-text.danger { color: var(--danger); }
 .btn-sm { padding: 5px 10px; font-size: 13px; }
 .btn-block { width: 100%; }

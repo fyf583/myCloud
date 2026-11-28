@@ -41,6 +41,9 @@ a:hover { color: var(--primary-dark); }
 img { display: block; max-width: 100%; }
 
 input, textarea, select, button { font-family: inherit; font-size: inherit; color: inherit; }
+/* 浏览器给原生按钮画的默认黑边，统一改成 70% 透明度的灰色；
+   .btn / .btn-ghost / .btn-primary / .btn-danger 等会在 layout.css 中覆盖为自己的边框 */
+button { border: 1px solid rgba(107, 114, 128, .7); }
 textarea { resize: vertical; }
 
 ul, ol { list-style: none; }

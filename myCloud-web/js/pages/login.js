@@ -19,7 +19,7 @@
 
   /* 已登录直接进首页 */
   if (Auth.isLogin()) {
-    location.replace('home.html');
+    location.replace(Auth.pageUrl('home.html'));
     return;
   }
 
@@ -81,7 +81,7 @@
     try {
       await Auth.login(username, password);
       UI.toast('登录成功', 'success');
-      setTimeout(function () { location.href = 'home.html'; }, 300);
+      setTimeout(function () { location.href = Auth.pageUrl('home.html'); }, 300);
     } catch (e) {
       showError(loginErr, e.message || '登录失败');
     } finally {
