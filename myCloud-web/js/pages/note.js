@@ -80,7 +80,7 @@
       : state.notes.filter(function (n) { return n.typeId === state.groupId; });
 
     if (!list.length) {
-      listEl.innerHTML = UI.emptyHTML(state.loading ? '加载中…' : '这里还没有笔记', '📒');
+      listEl.innerHTML = UI.emptyHTML('这里还没有笔记', '📒');
       return;
     }
 

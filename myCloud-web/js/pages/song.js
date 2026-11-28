@@ -14,7 +14,7 @@
 
   function renderList() {
     if (!state.items.length) {
-      listEl.innerHTML = UI.emptyHTML(state.loading ? '加载中…' : '歌单还是空的，添加一首吧', '🎵');
+      listEl.innerHTML = UI.emptyHTML('歌单还是空的，添加一首吧', '🎵');
       return;
     }
     listEl.innerHTML = state.items.map(function (s) {

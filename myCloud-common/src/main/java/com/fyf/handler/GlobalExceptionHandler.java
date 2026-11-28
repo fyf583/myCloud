@@ -2,6 +2,7 @@ package com.fyf.handler;
 
 import com.fyf.exception.BaseException;
 import com.fyf.result.Result;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+/**
+ * 仅对 Servlet（MVC）服务生效。
+ * 网关是 WebFlux，classpath 里没有 spring-webmvc，
+ * 若在这里引用 NoResourceFoundException，网关启动时会因找不到类而失败。
+ */
 @RestControllerAdvice
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException.class)

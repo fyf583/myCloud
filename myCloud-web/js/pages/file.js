@@ -22,7 +22,7 @@
 
   function renderList() {
     if (!state.items.length) {
-      tbody.innerHTML = '<tr><td colspan="6">' + UI.emptyHTML(state.loading ? '加载中…' : '暂无文件', '📁') + '</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6">' + UI.emptyHTML('暂无文件', '📁') + '</td></tr>';
       return;
     }
     tbody.innerHTML = state.items.map(function (f) {

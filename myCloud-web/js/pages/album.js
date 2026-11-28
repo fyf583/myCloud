@@ -23,7 +23,7 @@
 
   function renderList() {
     if (!state.items.length) {
-      grid.innerHTML = UI.emptyHTML(state.loading ? '加载中…' : '相册还没有照片', '🖼️');
+      grid.innerHTML = UI.emptyHTML('相册还没有照片', '🖼️');
       return;
     }
     grid.innerHTML = state.items.map(function (p) {

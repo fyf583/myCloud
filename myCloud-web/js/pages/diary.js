@@ -14,7 +14,7 @@
 
   function renderList() {
     if (!state.items.length) {
-      listEl.innerHTML = UI.emptyHTML(state.loading ? '加载中…' : '还没有日记，写下第一篇吧', '📔');
+      listEl.innerHTML = UI.emptyHTML('还没有日记，写下第一篇吧', '📔');
       return;
     }
     listEl.innerHTML = state.items.map(function (d) {
