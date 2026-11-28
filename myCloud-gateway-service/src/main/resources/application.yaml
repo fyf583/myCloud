@@ -54,4 +54,11 @@ spring:
             - Path=/album/**
           filters:
             - StripPrefix=0
+        - id: mycloud-todo-service
+          # uri: lb://mycloud-todo-service        # 装了 Nacos 并开启服务发现后改回这行
+          uri: http://localhost:8085
+          predicates:
+            - Path=/todo/**
+          filters:
+            - StripPrefix=0
 

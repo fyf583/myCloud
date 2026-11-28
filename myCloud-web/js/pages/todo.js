@@ -18,12 +18,10 @@
   }
 
   function renderList() {
-    const list = state.status === ''
-      ? state.items
-      : state.items.filter(function (t) { return String(t.status) === state.status; });
+    const list = state.items;
 
     if (!list.length) {
-      listEl.innerHTML = UI.emptyHTML(state.loading ? '加载中…' : '暂无日程，添加一条吧', '✅');
+      listEl.innerHTML = UI.emptyHTML('暂无日程，添加一条吧', '✅');
       return;
     }
 
@@ -69,6 +67,10 @@
     renderMore('loading');
 
     const payload = { pageSize: CONFIG.PAGE_SIZE };
+    // 状态过滤交给后端（GET /todo?status=0/1），避免客户端过滤与游标分页冲突
+    if (state.status !== '') {
+      payload.status = Number(state.status);
+    }
     if (!reset && state.cursorId) {
       payload.cursorId = state.cursorId;
       payload.cursorTime = state.cursorTime;
@@ -159,7 +161,7 @@
   /* ---------------- 过滤 / 刷新 ---------------- */
   $('statusFilter').addEventListener('change', function () {
     state.status = this.value;
-    renderList();
+    load(true);
   });
 
   $('btnRefresh').addEventListener('click', function () { load(true); });

@@ -96,3 +96,19 @@ CREATE TABLE IF NOT EXISTS `album` (
   PRIMARY KEY (`id`),
   KEY `idx_album_user_create_time` (`user_id`,`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
+-- 待做日程：status 0 未完成 / 1 已完成 / 2 已删除
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `todo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `content` varchar(200) NOT NULL COMMENT '待做内容',
+  `deadline` datetime DEFAULT NULL COMMENT '截止时间，可为空',
+  `status` int NOT NULL DEFAULT '0' COMMENT '0 未完成、1 已完成、2 已删除',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_todo_user_create_time` (`user_id`,`create_time`),
+  KEY `idx_todo_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

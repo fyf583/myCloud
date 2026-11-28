@@ -82,10 +82,10 @@
   /* ---------------- 模块清单 ---------------- */
   const MODULES = [
     { key: 'message', name: '留言板', icon: '💬', desc: '公告与留言互动', page: 'message.html', done: true },
-    { key: 'note', name: '笔记本', icon: '📒', desc: '笔记内容与分组管理', page: 'note.html', done: false },
-    { key: 'diary', name: '日记本', icon: '📔', desc: '记录每天的心情', page: 'diary.html', done: false },
-    { key: 'album', name: '相册', icon: '🖼️', desc: '照片上传与浏览', page: 'album.html', done: false },
-    { key: 'todo', name: '待做日程', icon: '✅', desc: '待办清单与截止时间', page: 'todo.html', done: false },
+    { key: 'note', name: '笔记本', icon: '📒', desc: '笔记内容与分组管理', page: 'note.html', done: true },
+    { key: 'diary', name: '日记本', icon: '📔', desc: '记录每天的心情', page: 'diary.html', done: true },
+    { key: 'album', name: '相册', icon: '🖼️', desc: '照片上传与浏览', page: 'album.html', done: true },
+    { key: 'todo', name: '待做日程', icon: '✅', desc: '待办清单与截止时间', page: 'todo.html', done: true },
     { key: 'file', name: '文件分享', icon: '📁', desc: '文件上传与下载', page: 'file.html', done: false },
     { key: 'song', name: '我的歌单', icon: '🎵', desc: '收藏与播放歌曲', page: 'song.html', done: false }
   ];
